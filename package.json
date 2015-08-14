@@ -1,0 +1,16 @@
+{
+  "name": "sam-app",
+  "version": "0.1.0",
+  "description": "It's just an app for me",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "sam",
+    "first",
+    "app"
+  ],
+  "author": "Sam C.",
+  "license": "MIT"
+}
