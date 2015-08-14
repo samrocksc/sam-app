@@ -8,23 +8,16 @@ function start(route, handle) {
   //defining the port that we will use
   var port = 8888;
 
+  //defining a function for onRequest that will fire the content writing.
   function onRequest(request, response) {
     var pathname = url.parse(request.url).pathname
     console.log('Request for ' + pathname + ' received.');
 
-    //creating a route to pathname object
-    route(handle, pathname);
-
-    //writing to the header and sending data to the body
-    response.writeHead(200, {
-      "Content-Type": "text/plain"
-    });
-    response.write("Hello World");
-    response.end();
+    //creating the route WITH a response
+    route(handle, pathname, response);
   }
-
   //define server->.listen to a port->log that there is a server running.
-  http.createServer(onRequest).listen(8888, function() {
+  http.createServer(onRequest).listen(port, function() {
     console.log('There is a server running on ' + port)
   })
 };
