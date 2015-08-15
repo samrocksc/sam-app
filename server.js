@@ -10,16 +10,29 @@ function start(route, handle) {
 
   //defining a function for onRequest that will fire the content writing.
   function onRequest(request, response) {
-    var pathname = url.parse(request.url).pathname
+    var postData = '';
+    var pathname = url.parse(request.url).pathname;
     console.log('Request for ' + pathname + ' received.');
 
-    //creating the route WITH a response
-    route(handle, pathname, response);
+    //being good and setting encoding to UTF-8
+    request.setEncoding("utf8");
+
+    //adding a listner for 'data' from post.
+    request.addListener('data', function(postDataChunk){
+      postData += postDataChunk;
+      console.log('Received POST data chunk "' + postDataChunk + "'.");
+    });
+
+    //Listener that ends the reception of data and then forwards to the router
+    request.addListener('end', function() {
+      route(handle, pathname, response, postData);
+    });
   }
+
   //define server->.listen to a port->log that there is a server running.
   http.createServer(onRequest).listen(port, function() {
-    console.log('There is a server running on ' + port)
-  })
-};
+    console.log('Server running on port ' + port);
+  });
+}
 
 exports.start = start;
